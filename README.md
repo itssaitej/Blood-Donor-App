@@ -1,10 +1,10 @@
 # Blood Donor App 🩸
 
-A Spring Boot backend application to manage blood donors.
+A Spring Boot backend application for managing blood donors.
 
 ## Features
 - User Registration & Login
-- Donor Management (CRUD)
+- Donor CRUD Operations
 - Search by City, Area, Blood Group
 - Availability Tracking
 
@@ -13,6 +13,14 @@ A Spring Boot backend application to manage blood donors.
 - Spring Boot
 - Spring Data JPA
 - H2 Database
+
+## API Examples
+
+### Register
+POST /auth/register
+
+### Get Donors
+GET /donors
 
 ## Future Improvements
 - JWT Authentication
