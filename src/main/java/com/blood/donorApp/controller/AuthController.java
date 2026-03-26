@@ -1,0 +1,89 @@
+package com.blood.donorApp.controller;
+
+import com.blood.donorApp.dto.RegisterRequest;
+import com.blood.donorApp.model.User;
+import com.blood.donorApp.repository.UserRepository;
+import com.blood.donorApp.service.AuthService;
+
+import jakarta.validation.Valid;
+
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+@RestController
+@RequestMapping("/auth")
+public class AuthController 
+{
+
+    private final UserRepository userRepo;
+    private final PasswordEncoder passwordEncoder;
+    
+    @Autowired
+    private AuthService authService;
+    
+    public AuthController(UserRepository userRepo, PasswordEncoder passwordEncoder) 
+    {
+        this.userRepo = userRepo;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    // REGISTER
+    @PostMapping("/register")
+    public String register(@Valid @RequestBody RegisterRequest request) 
+    {
+        return authService.register(request);
+    }
+    
+
+    // LOGIN
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@Valid @RequestBody User user) 
+    {
+        User existing = userRepo.findByUsername(user.getUsername());
+
+        if (existing == null) 
+        {
+        	return ResponseEntity.status(404).body("User not found");
+        }
+
+        if (passwordEncoder.matches(user.getPassword(), existing.getPassword())) 
+        {
+            return ResponseEntity.ok("Login successful");
+        } 
+        else 
+        {
+            return ResponseEntity.ok("Invalid password");
+        }
+    }
+    
+    @GetMapping("/users")
+    public ResponseEntity<List<User>> getAllUsers() 
+    {
+        List<User> users = userRepo.findAll();
+        return ResponseEntity.ok(users);
+    }
+    
+    @GetMapping("/users/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable Long id) 
+    {
+        return userRepo.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
+    
+    @GetMapping("/users/username/{username}")
+    public ResponseEntity<User> getUserByUsername(@PathVariable String username) 
+    {
+
+        User user = userRepo.findByUsername(username);
+
+        if (user != null)
+            return ResponseEntity.ok(user);
+        else
+            return ResponseEntity.notFound().build();
+    }
+    
+}
