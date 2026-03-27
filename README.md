@@ -7,6 +7,8 @@ A Spring Boot backend application for managing blood donors.
 - Donor CRUD Operations
 - Search by City, Area, Blood Group
 - Availability Tracking
+- JWT Authentication
+- Secure APIs
 
 ## Tech Stack
 - Java
@@ -75,6 +77,5 @@ Username: sa
 Password: (leave empty)   
 
 ## Future Improvements
-- JWT Authentication
 - React Frontend
-- Location-based search
+- GPS Location-based search
