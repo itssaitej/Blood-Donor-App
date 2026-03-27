@@ -31,11 +31,23 @@ Body:
   "available": true
 }
 
+### Login
+POST /auth/login
+
+Body:
+{
+  "username": "tej",
+  "password": "1234"
+}
+
 ### Get Donors
 GET /donors
 
-### Search
+### Search Using City
 GET /donors/search?city=Hyderabad
+
+### Search Using City&BloodGroup
+GET /donors/search?city=Hyderabad&bloodGroup=O%2B
 
 ## How to Run 🚀
 
